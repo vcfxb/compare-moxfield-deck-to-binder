@@ -3,7 +3,7 @@ use regex::Regex;
 use reqwest::blocking::Response;
 use serde_json::{Value, json};
 use std::{
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     env, process,
     sync::Once,
     time::{Duration, Instant},
@@ -204,9 +204,8 @@ fn main() {
     println!("All data recieved. Comparing deck to binder...");
 
     let mut cards_in_common = 0;
-    let deck_cards = deck.keys().collect::<Vec<_>>();
 
-    for card in deck_cards {
+    for card in deck.keys().chain(binder.keys()).collect::<HashSet<_>>() {
         match (
             deck.get(card).copied().unwrap_or_default() as i64,
             binder.get(card).copied().unwrap_or_default(),
