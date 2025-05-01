@@ -3,7 +3,7 @@ use regex::Regex;
 use reqwest::blocking::Response;
 use serde_json::{Value, json};
 use std::{
-    collections::{HashMap, HashSet},
+    collections::{BTreeSet, HashMap},
     env, process,
     sync::Once,
     time::{Duration, Instant},
@@ -205,7 +205,7 @@ fn main() {
 
     let mut cards_in_common = 0;
 
-    for card in deck.keys().chain(binder.keys()).collect::<HashSet<_>>() {
+    for card in deck.keys().chain(binder.keys()).collect::<BTreeSet<_>>() {
         match (
             deck.get(card).copied().unwrap_or_default() as i64,
             binder.get(card).copied().unwrap_or_default(),
